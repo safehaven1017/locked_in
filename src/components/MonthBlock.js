@@ -1,18 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { MONTHS, WEEKDAYS } from '../calendarData'
+import { WEEKDAYS } from '../calendarData';
+import { useState } from 'react';
 
 function MonthBlock(props) {
+  const [ isHover, setIsHover ] = useState(false);
   const { number, month, year, inMonth } = props.day;
   const day = number;
+  // Lets highlight day if it is today... need to create date object to do that
+  const today = new Date();
+  let isToday = false;
+  if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === day) {
+      isToday = true;
+  }
   // To label each day with a weekday, will simply check modulus of the index
   const week = Math.floor((props.index) / 7) + 1
   const dayColor = inMonth ? '#0d53f7' : '#4e6a87';
   return (
-    <StyledLink to="/" dayColor={dayColor} >
+    <StyledLink to="/" day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
             <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
-            <NumberContainer inMonth={inMonth} >{day}</NumberContainer>
+            <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         <Block>
             <InnerSpan>WEEK: {week}</InnerSpan>
             <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>
@@ -25,7 +33,7 @@ export default MonthBlock;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: ${props => props.dayColor};
+  color: ${props => props.day_color};
   margin: 0;
   position: relative;
   border-style: solid;
@@ -60,6 +68,8 @@ const Block = styled.div`
 `;
 
 const WeekdayContainer = styled.span`
+    width: 2vw;
+    height: 2vw;
     margin: .5rem;
     position: absolute;
     color: inherit;
@@ -68,13 +78,21 @@ const WeekdayContainer = styled.span`
     `;
 
 const NumberContainer = styled.span`
-    width: 87%;
-    margin: .5rem;
+    margin-top: .04rem;
     position: absolute;
-    color: inherit;
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7vw;
+    height: 1.7vw;
+    left: 82%;
+    transition: color 1s, background-color 1s;
+    color: ${props => props.isToday ? (props.isHover ? "red" : "white") : "inherit"};
+    text-align: center;
     font-size: 1.5vh;
     font-weight: ${props => props.inMonth ? 700 : 400};
+    background-color: ${props => props.isToday ? (props.isHover ? "white" : "red") : "transparent"};
+    border-radius: 6px;
  `;
 
 const InnerSpan = styled.span`

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import MonthBlock from './MonthBlock';
+import { MONTHS } from '../calendarData';
 
-const YEAR = 2023;
-const MONTH = 11;
+const YEAR = 2022;
+const MONTH = 1;
 
 // Create an array of objects that contains information on each day in the month
 // To clarify, "numerical day" and "day" are two different things in the comments - (numerical day ex: 20th) (day ex: a weekday (Thursday))
@@ -59,6 +60,7 @@ export function createMonthArray(year, month) {
 function MonthCalendar() {
   return (
     <PageContainer>
+      <h2>{MONTHS[MONTH]} {YEAR}</h2>
       <CalendarContainer>
         {createMonthArray(YEAR, MONTH).map((day, index) => <MonthBlock day={day} index={index} key={index} />)}
       </CalendarContainer>
@@ -68,8 +70,10 @@ function MonthCalendar() {
 
 const PageContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #0d53f7;
 `
 
 const CalendarContainer = styled.div`
