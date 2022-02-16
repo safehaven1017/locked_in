@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { WEEKDAYS } from '../../calendarData';
 import { useState } from 'react';
-import { createWeek, createMonth } from '../../calendarFunctions';
+import { createWeek, createMonth, findMonth } from '../../calendarFunctions';
 
 function MonthBlock(props) {
-  // Deconstructing day prop
+  // Deconstructing props
   const { number, month, year, inMonth } = props.day;
   const day = number;
-  // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view, hoveredIndex
-  // is used to generate the specified week in the thisWeek state
+  // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view
   const [ isHover, setIsHover ] = useState(false);
-  const thisMonth = createMonth(year, month);
-  const [ thisWeek, setThisWeek ] = useState(createWeek(thisMonth, props.index))
-  const [ hoveredIndex, sethoveredIndex ] = useState(0);
+  // const propDate = new Date(year, month)
+  // const monthOfIndex = (inMonth === false && number > 15) ? month - 1 
+  const [ thisWeek, setThisWeek ] = useState(createWeek(props.monthArray, props.index))
   // Lets highlight day if it is today... need to create date object to do that
   const today = new Date();
   let isToday = false;

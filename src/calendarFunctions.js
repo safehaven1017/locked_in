@@ -54,9 +54,17 @@ export function createWeek(month, dayIndex) {
     return week;
 }
 
-// Finds the first day that is part of the selected month to display the name of the month
-export function findMonth(week) {
+// Finds the first day that is part of the selected week to display the name of the month
+export function findMonthFromWeek(week) {
     const validDay = week.find(day => day.inMonth === true);
+    return {
+      year: validDay.year,
+      month: validDay.month
+    }
+  }
+// Finds the first day that is part of the selected week to display the name of the month
+export function findMonthFromMonth(month) {
+    const validDay = month.find(day => day.inMonth === true);
     return {
       year: validDay.year,
       month: validDay.month

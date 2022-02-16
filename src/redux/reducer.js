@@ -1,37 +1,17 @@
+import { createMonth } from "../calendarFunctions";
+const currentDate = new Date();
+const defaultMonth = createMonth(currentDate.getFullYear(), currentDate.getMonth());
 const defaultState = {
-    incrementer: 0,
-    list: []
+    month: defaultMonth
 };
 
-export default function reducer(state = defaultState, action) {
+export default function monthReducer(state = defaultState, action) {
     switch (action.type) {
-        case "ADD_ITEM":
-            return { 
+        case "SET_MONTH":
+            return {
                 ...state,
-                incrementer: state.incrementer + 1,
-                list: [ ...state.list, action.item ] || state.list
+                month: action.month
             };
-
-        case "DELETE_ITEM":
-            return { 
-                ...state,
-                list: state.list.filter(item => {
-                    return (item.id !== action.id)
-                })
-            };
-
-        case "EDIT_ITEM":
-            return { 
-                ...state,
-                list: state.list.map(item => {
-                    if (item.id === action.id) {
-                        return { ...item, text: action.text };
-                    } else {
-                        return item;
-                    }
-                })
-            };
-
         default:
             return state;
     }
