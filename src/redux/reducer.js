@@ -1,8 +1,11 @@
 import { createMonth } from "../calendarFunctions";
+
 const currentDate = new Date();
 const defaultMonth = createMonth(currentDate.getFullYear(), currentDate.getMonth());
 const defaultState = {
-    month: defaultMonth
+    monthArray: createMonth(currentDate.getFullYear(), currentDate.getMonth()),
+    calendarMonth: currentDate.getMonth(),
+    calendarYear: currentDate.getFullYear()
 };
 
 export default function monthReducer(state = defaultState, action) {
@@ -10,7 +13,23 @@ export default function monthReducer(state = defaultState, action) {
         case "SET_MONTH":
             return {
                 ...state,
-                month: action.month
+                monthArray: [action.monthArray],
+                calendarMonth: action.calendarMonth,
+                calendarYear: action.calendarYear
+            };
+        case "PREVIOUS_MONTH":
+            return {
+                ...state,
+                monthArray: createMonth(action.calendarYear, action.calendarMonth),
+                calendarMonth: action.calendarMonth,
+                calendarYear: action.calendarYear
+            };
+        case "NEXT_MONTH":
+            return {
+                ...state,
+                monthArray: createMonth(action.calendarYear, action.calendarMonth),
+                calendarMonth: action.calendarMonth,
+                calendarYear: action.calendarYear
             };
         default:
             return state;

@@ -1,20 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 import MonthBlock from './MonthBlock';
-import { createMonth, findMonthFromMonth } from '../../calendarFunctions';
 import { MONTHS } from '../../calendarData';
 import { useSelector, useDispatch } from 'react-redux';
+import { nextMonth, setMonth } from '../../redux/actions/monthActions';
+import { createMonth } from '../../calendarFunctions';
+import { useEffect } from 'react';
 
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
 function MonthCalendar() {
-  const monthState = useSelector(state => state.month);
-  const { month, year } = findMonthFromMonth(monthState)
+  const { monthArray, calendarMonth, calendarYear } = useSelector(state => state);
+  const dispatch = useDispatch();
   return (
     <PageContainer>
-      <h2>{MONTHS[monthState[10].month]} {year}</h2>
+      <h2>{MONTHS[calendarMonth]} {calendarYear}</h2>
+      <button onClick={() => dispatch(nextMonth((calendarMonth === 0 ? 11 : calendarMonth - 1), (calendarMonth === 0 ? calendarYear - 1 : calendarYear)))} >previous month</button>
+      <button onClick={() => dispatch(nextMonth(((calendarMonth + 1) % 12), (calendarMonth === 11 ? calendarYear + 1 : calendarYear)))} >next month</button>
       <CalendarContainer>
-        {monthState.map((day, index) => <MonthBlock monthArray={monthState} day={day} index={index} key={index} />)}
+        {monthArray.map((day, index) => <MonthBlock monthArray={monthArray} day={day} index={index} key={index} />)}
       </CalendarContainer>
     </PageContainer>
   )
