@@ -47,8 +47,32 @@ export function createMonth(year, month) {
     return daysArray;
 }
 
+// To create an array of day objects that form a week, we are going to filter out all the days that return the same
+// floored number when divided by 7 (# of days in a week)
 export function createWeek(month, dayIndex) {
     const week = month.filter((monthDay, index) => (Math.floor(index / 7) === Math.floor(dayIndex / 7)))
-    console.log(week);
     return week;
+}
+
+// Finds the first day that is part of the selected month to display the name of the month
+export function findMonth(week) {
+    const validDay = week.find(day => day.inMonth === true);
+    return {
+      year: validDay.year,
+      month: validDay.month
+    }
+  }
+
+// determine if a day object has already past by comparing it todays date
+export function isPast(day) {
+ const todaysDate = new Date();
+ if (todaysDate.getFullYear() > day.year) {
+   return true;
+ } else if (todaysDate.getMonth() > day.month && todaysDate.getFullYear() === day.year) {
+    return true;
+ } else if (todaysDate.getMonth() === day.month && todaysDate.getFullYear() === day.year && todaysDate.getDate() > day.number) {
+     return true;
+ } else {
+     return false;
+ }
 }

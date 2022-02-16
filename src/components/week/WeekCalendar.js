@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 function WeekCalendar() {
   return (
@@ -6,4 +7,4 @@ function WeekCalendar() {
   )
 }
 
-export default WeekCalendar
+export default WeekCalendar;

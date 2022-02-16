@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import MonthBlock from './MonthBlock';
-import { createMonth } from '../calendarFunctions';
-import { MONTHS } from '../calendarData';
+import { createMonth } from '../../calendarFunctions';
+import { MONTHS } from '../../calendarData';
 
 const YEAR = 2022;
 const MONTH = 1;
@@ -20,7 +20,7 @@ function MonthCalendar() {
   )
 }
 
-const PageContainer = styled.div`
+export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +28,7 @@ const PageContainer = styled.div`
   color: #0d53f7;
 `
 
-const CalendarContainer = styled.div`
+export const CalendarContainer = styled.div`
   width: 70vw;
   height: 90vh;
   margin: 5vh;

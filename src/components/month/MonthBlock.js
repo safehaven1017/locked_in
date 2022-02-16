@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { WEEKDAYS } from '../calendarData';
+import { WEEKDAYS } from '../../calendarData';
 import { useState } from 'react';
-import { createWeek, createMonth } from '../calendarFunctions';
-
-const YEAR = 2022;
-const MONTH = 1;
+import { createWeek, createMonth } from '../../calendarFunctions';
 
 function MonthBlock(props) {
-  const [ isHover, setIsHover ] = useState(false);
-  const [ showWeek, setShowWeek ] = useState(false);
+  // Deconstructing day prop
   const { number, month, year, inMonth } = props.day;
-  const thisMonth = createMonth(YEAR, MONTH);
   const day = number;
-  const [weekString, setWeekString ] = useState(createWeek(thisMonth, props.index).map(dayWeek => dayWeek.number).join(","))
+  // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view, hoveredIndex
+  // is used to generate the specified week in the thisWeek state
+  const [ isHover, setIsHover ] = useState(false);
+  const thisMonth = createMonth(year, month);
+  const [ thisWeek, setThisWeek ] = useState(createWeek(thisMonth, props.index))
+  const [ hoveredIndex, sethoveredIndex ] = useState(0);
   // Lets highlight day if it is today... need to create date object to do that
   const today = new Date();
   let isToday = false;
@@ -26,22 +26,14 @@ function MonthBlock(props) {
   const dayColor = inMonth ? '#0d53f7' : '#4e6a87';
   return (
     <StyledDay day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
-            <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
-            <WeekLink to="/">
-                <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
-            </WeekLink>
-        
-            {
-                showWeek ?
-                <Block onClick={() => setShowWeek(false)} >
-                    {weekString}
-                </Block> 
-                :
-                <Block onClick={() => setShowWeek(true)} > 
-                    <InnerSpan>WEEK: {week}</InnerSpan>
-                    <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>    
-                </Block>  
-            }
+        <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
+        <WeekLink to="/WeekPage" state={thisWeek} >
+            <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
+        </WeekLink>
+        <Block> 
+            <InnerSpan>WEEK: {week}</InnerSpan>
+            <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>    
+        </Block>  
     </StyledDay>
   )
 }
@@ -129,7 +121,6 @@ const NumberContainer = styled.span`
     background-color: ${props => props.isToday ? (props.isHover ? "white" : "red") : "transparent"};
     border-radius: 6px;
     text-decoration: none;
-    
  `;
 
 const InnerSpan = styled.span`
