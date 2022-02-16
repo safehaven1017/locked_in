@@ -3,11 +3,18 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { WEEKDAYS } from '../calendarData';
 import { useState } from 'react';
+import { createWeek, createMonth } from '../calendarFunctions';
+
+const YEAR = 2022;
+const MONTH = 1;
 
 function MonthBlock(props) {
   const [ isHover, setIsHover ] = useState(false);
+  const [ showWeek, setShowWeek ] = useState(false);
   const { number, month, year, inMonth } = props.day;
+  const thisMonth = createMonth(YEAR, MONTH);
   const day = number;
+  const [weekString, setWeekString ] = useState(createWeek(thisMonth, props.index).map(dayWeek => dayWeek.number).join(","))
   // Lets highlight day if it is today... need to create date object to do that
   const today = new Date();
   let isToday = false;
@@ -18,21 +25,35 @@ function MonthBlock(props) {
   const week = Math.floor((props.index) / 7) + 1
   const dayColor = inMonth ? '#0d53f7' : '#4e6a87';
   return (
-    <StyledLink to="/" day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
+    <StyledDay day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
             <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
-            <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
-        <Block>
-            <InnerSpan>WEEK: {week}</InnerSpan>
-            <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>
-        </Block>
-    </StyledLink>
+            <WeekLink to="/">
+                <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
+            </WeekLink>
+        
+            {
+                showWeek ?
+                <Block onClick={() => setShowWeek(false)} >
+                    {weekString}
+                </Block> 
+                :
+                <Block onClick={() => setShowWeek(true)} > 
+                    <InnerSpan>WEEK: {week}</InnerSpan>
+                    <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>    
+                </Block>  
+            }
+    </StyledDay>
   )
 }
 
 export default MonthBlock;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
+const StyledDay = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
   color: ${props => props.day_color};
   margin: 0;
   position: relative;
@@ -41,35 +62,37 @@ const StyledLink = styled(Link)`
   border-right-style: none;
   border-color: #00000061;
   border-width: .01px;
-  transition: color 1s, background-color 1s;
+  transition: color .5s, background-color .5s;
   &:hover {
     color: white;
-        background-color: red;  
-    }
-    &:nth-child(7n+7) {
-        border-right-style: solid;
-    }
-    &:nth-last-child(-n+7) {
-        border-bottom-style: solid;
-    }
+    background-color: #ff000085;  
+  }
+  &:nth-child(7n+7) {
+    border-right-style: solid;
+  }
+  &:nth-last-child(-n+7) {
+    border-bottom-style: solid;
+  }
 `;
 
-const Block = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
+const Block = styled.button`
     margin: 0;
     padding: 0;
+    /* height: 2vh; */
     color: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-color: transparent;
+    border-style: none;
+    &:hover {
+    color: #0d53f7;
+  }
 `;
 
 const WeekdayContainer = styled.span`
-    width: 2vw;
-    height: 2vw;
+    left: .01vw;
     margin: .5rem;
     position: absolute;
     color: inherit;
@@ -77,22 +100,36 @@ const WeekdayContainer = styled.span`
     font-weight: ${props => props.inMonth ? 700 : 400};
     `;
 
-const NumberContainer = styled.span`
+const WeekLink = styled(Link)`
+    width: 1.7vw;
+    height: 1.7vw;
+    left: 82%;
     margin-top: .04rem;
     position: absolute;
+    text-decoration: none;
+    transition: color .5s, background-color .5s;
+    border-radius: 6px;
+    &:hover {
+        color: white;
+        background-color: #0d53f7;
+    }
+`
+
+const NumberContainer = styled.span`
     display: flex;
     align-items: center;
     justify-content: center;
     width: 1.7vw;
     height: 1.7vw;
-    left: 82%;
-    transition: color 1s, background-color 1s;
+    transition: color .5s, background-color .5s;
     color: ${props => props.isToday ? (props.isHover ? "red" : "white") : "inherit"};
     text-align: center;
     font-size: 1.5vh;
     font-weight: ${props => props.inMonth ? 700 : 400};
     background-color: ${props => props.isToday ? (props.isHover ? "white" : "red") : "transparent"};
     border-radius: 6px;
+    text-decoration: none;
+    
  `;
 
 const InnerSpan = styled.span`
