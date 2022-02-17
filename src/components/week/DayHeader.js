@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MONTHS, WEEKDAYS } from '../../calendarData';
+import { WEEKDAYS } from '../../calendarData';
 import { isPast } from '../../calendarFunctions'
 
 function DayHeader(props) {
-    const { year, month, number, inMonth } = props.day;
+    const { number } = props.day;
     return (
     <DayHeaderContainer>
         <InnerHeader isPast={isPast(props.day)} >

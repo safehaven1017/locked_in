@@ -10,14 +10,18 @@ export function createMonth(year, month) {
     const previousMonth = new Date(year, month, 0);
     // Subtract the last numerical day of last month minus the day of the week to push the days starting from monday in the last week of the
     // previous month. This should only happen if the previous month doesn't end on a Saturday
+    // We will use count to determine what week the specific day is is: floor( count / 7 ) will give us a week index
+    let weekCount = 0;
     if (previousMonth.getDay() < 6) {
       for (let i = (previousMonth.getDate() - previousMonth.getDay()); i <= previousMonth.getDate(); i++) {
         daysArray.push({
           year: previousMonth.getFullYear(),
           month: previousMonth.getMonth(),
+          week: createWeekIndex(weekCount),
           number: i,
           inMonth: false
         });
+        weekCount++;
       }
     }
     // Push all the numerical days of this month
@@ -25,9 +29,11 @@ export function createMonth(year, month) {
       daysArray.push({
         year: lastDayThisMonth.getFullYear(),
         month: lastDayThisMonth.getMonth(),
+        week: createWeekIndex(weekCount),
         number: i,
         inMonth: true
       });
+      weekCount++
     }
     // We'll go ahead and create a date object to determine if the next month is in the next year
     const nextMonth = new Date(year, month + 1, 1);
@@ -38,20 +44,25 @@ export function createMonth(year, month) {
         daysArray.push({
           year: nextMonth.getFullYear(),
           month: nextMonth.getMonth(),
+          week: createWeekIndex(weekCount),
           number: count,
           inMonth: false
         });
         count++;
+        weekCount++;
       }
     }
     return daysArray;
 }
 
-// To create an array of day objects that form a week, we are going to filter out all the days that return the same
-// floored number when divided by 7 (# of days in a week)
-export function createWeek(month, dayIndex) {
-    const week = month.filter((monthDay, index) => (Math.floor(index / 7) === Math.floor(dayIndex / 7)))
-    return week;
+export function createWeekIndex(indexInMonth) {
+    return Math.floor(indexInMonth / 7);
+}
+
+// To create an array of day objects that form a week, we are going to grab all the days that return the same
+// week index
+export function createWeek(monthArray, day) {
+    return monthArray.filter(monthDay => monthDay.week === day.week);
 }
 
 // Finds the first day that is part of the selected week to display the name of the month

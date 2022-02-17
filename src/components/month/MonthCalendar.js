@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import MonthBlock from './MonthBlock';
 import { MONTHS } from '../../calendarData';
 import { useSelector, useDispatch } from 'react-redux';
-import { previousMonth, nextMonth, setMonth } from '../../redux/actions/monthActions';
-import { createMonth } from '../../calendarFunctions';
-import { useEffect } from 'react';
+import { previousMonth, nextMonth } from '../../redux/actions/monthActions';
 
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
@@ -18,7 +16,7 @@ function MonthCalendar() {
       <button onClick={() => dispatch(previousMonth(calendarMonth, calendarYear))} >previous month</button>
       <button onClick={() => dispatch(nextMonth(calendarMonth, calendarYear))} >next month</button>
       <CalendarContainer>
-        {monthArray.map((day, index) => <MonthBlock monthArray={monthArray} day={day} index={index} key={index} />)}
+        {monthArray.map((day, index) => <MonthBlock day={day} index={index} key={index} />)}
       </CalendarContainer>
     </PageContainer>
   )

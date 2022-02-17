@@ -1,7 +1,7 @@
+// import { combineReducers } from "redux";
 import { createMonth } from "../calendarFunctions";
 
 const currentDate = new Date();
-const defaultMonth = createMonth(currentDate.getFullYear(), currentDate.getMonth());
 const defaultState = {
     monthArray: createMonth(currentDate.getFullYear(), currentDate.getMonth()),
     calendarMonth: currentDate.getMonth(),
@@ -39,3 +39,7 @@ export default function monthReducer(state = defaultState, action) {
             return state;
     }
 }
+
+// export default combineReducers({
+//     monthReducer
+// });

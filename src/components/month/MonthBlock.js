@@ -3,23 +3,25 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { WEEKDAYS } from '../../calendarData';
 import { useState } from 'react';
-import { createWeek, createMonth, findMonth } from '../../calendarFunctions';
+import { createWeekIndex, createWeek } from '../../calendarFunctions';
+import { useSelector } from 'react-redux';
 
 function MonthBlock(props) {
+  const monthArray = useSelector(state => state.monthArray);
   // Deconstructing props
-  const { number, month, year, inMonth } = props.day;
+  const { number, week, month, year, inMonth } = props.day;
   const day = number;
   // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view
   const [ isHover, setIsHover ] = useState(false);
-  const [ thisWeek, setThisWeek ] = useState(createWeek(props.monthArray, props.index))
+  const thisWeek = createWeek(monthArray, props.day);
+  // console.log(thisWeek);
   // Lets highlight day if it is today... need to create date object to do that
   const today = new Date();
   let isToday = false;
   if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === day) {
       isToday = true;
   }
-  // To label each day with a weekday, will simply check modulus of the index
-  const week = Math.floor((props.index) / 7) + 1
+  // To label each day with a weekday, will simply check modulus of the index (index % 7)
   const dayColor = inMonth ? '#0d53f7' : '#4e6a87';
   return (
     <StyledDay day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
@@ -27,7 +29,7 @@ function MonthBlock(props) {
         <WeekLink to="/WeekPage" state={thisWeek} >
             <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         </WeekLink>
-        <Block> 
+        <Block isHover={isHover} > 
             <InnerSpan>WEEK: {week}</InnerSpan>
             <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>    
         </Block>  
@@ -76,7 +78,7 @@ const Block = styled.button`
     background-color: transparent;
     border-style: none;
     &:hover {
-    color: #0d53f7;
+    color: ${props => props.isHover ? "white" : "#0d53f7"};
   }
 `;
 
@@ -111,7 +113,7 @@ const NumberContainer = styled.span`
     width: 1.7vw;
     height: 1.7vw;
     transition: color .5s, background-color .5s;
-    color: ${props => props.isToday ? (props.isHover ? "red" : "white") : "inherit"};
+    color: ${props => props.isToday ? (props.isHover ? "red" : "white") : (props.inMonth ? "#0d53f7" : "#4e6a87")};
     text-align: center;
     font-size: 1.5vh;
     font-weight: ${props => props.inMonth ? 700 : 400};
