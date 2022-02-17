@@ -65,31 +65,6 @@ export function createWeek(monthArray, day) {
     return monthArray.filter(monthDay => monthDay.week === day.week);
 }
 
-// Compare dates to see if it is the current date
-export function calculateIsToday(day) {
-    const today = new Date();
-    if (today.getFullYear() === day.year && today.getMonth() === day.month && today.getDate() === day.number) {
-        return day;
-    } else {
-        return false;
-    }
-}
-
-// export const currentCalendarDate = {
-//     currentDate: () => {
-//         return new Date();
-//     },
-//     createMonth: () => {
-//         return createMonth(currentCalendarDate.currentDate().getFullYear(), currentCalendarDate.currentDate().getMonth());
-//     },
-//     createToday: () => {
-//         return currentCalendarDate.createMonth().filter(calculateIsToday);
-//     },
-//     createWeek: () => {
-//         return createWeek(currentCalendarDate.createMonth(), currentCalendarDate.createToday()); 
-//     }
-// }
-
 export function calendarModule(day = { year: new Date().getFullYear(), month: new Date().getMonth(), number: new Date().getDate() }) {
     return {
         getCurrentDate: () => {
@@ -98,14 +73,22 @@ export function calendarModule(day = { year: new Date().getFullYear(), month: ne
         getMonthCalendar: () => {
             return createMonth(day.year,day.month);
         },
-        getDaysCalendar: () => {
-            const daysArray = createMonth(day.year, day.month).filter(monthDay => monthDay.year === day.year && monthDay.month === day.month && monthDay.number === day.number);
+        getDaysCalendar: (days = [day]) => {
+            const daysArray = days.map(day => 
+                createMonth(day.year, day.month).filter(monthDay => monthDay.year === day.year && monthDay.month === day.month && monthDay.number === day.number)[0]
+            )
             if (daysArray.length === 1) {
                 return daysArray[0]
             } else {
                 return daysArray;
             }
         },
+        getWeekCalendar: () => {
+            console.log(createMonth(day.year, day.month))
+            console.log(calendarModule(day).getDaysCalendar());
+            return createWeek(createMonth(day.year, day.month), calendarModule(day).getDaysCalendar()); 
+        },
+        // Determine if a day object has already past by comparing it todays date
         isToday: () => {
             const today = new Date();
             if (today.getFullYear() === day.year && today.getMonth() === day.month && today.getDate() === day.number) {
@@ -114,14 +97,20 @@ export function calendarModule(day = { year: new Date().getFullYear(), month: ne
                 return false;
             }
         }, 
-        getWeekCalendar: () => {
-            console.log(createMonth(day.year, day.month))
-            console.log(calendarModule(day).getDaysCalendar());
-            return createWeek(createMonth(day.year, day.month), calendarModule(day).getDaysCalendar()); 
+        isPast: () => {
+            const today = new Date();
+            if (today.getFullYear() > day.year) {
+            return true;
+            } else if (today.getMonth() > day.month && today.getFullYear() === day.year) {
+                return true;
+            } else if (today.getMonth() === day.month && today.getFullYear() === day.year && today.getDate() > day.number) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
-
 
 // Finds the first day that is part of the selected week to display the name of the month
 export function findMonthFromWeek(week) {
@@ -132,27 +121,13 @@ export function findMonthFromWeek(week) {
     }
   }
 // Finds the first day that is part of the selected week to display the name of the month
-export function findMonthFromMonth(month) {
-    const validDay = month.find(day => day.inMonth === true);
+export function findMonthFromCalendar(dayArray) {
+    const validDay = dayArray.find(day => day.inMonth === true);
     return {
       year: validDay.year,
       month: validDay.month
     }
   }
-
-// Determine if a day object has already past by comparing it todays date
-export function isPast(day) {
- const todaysDate = new Date();
- if (todaysDate.getFullYear() > day.year) {
-   return true;
- } else if (todaysDate.getMonth() > day.month && todaysDate.getFullYear() === day.year) {
-    return true;
- } else if (todaysDate.getMonth() === day.month && todaysDate.getFullYear() === day.year && todaysDate.getDate() > day.number) {
-     return true;
- } else {
-     return false;
- }
-}
 
 // Convert "YYYY-MM" date string to numbers
 export function dateStringToObject(string) {

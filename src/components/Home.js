@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
-import { dateStringToObject } from '../calendarFunctions';
+import { dateStringToObject, calendarModule } from '../calendarFunctions';
 import { setMonth } from '../redux/actions/monthActions';
 
 function Home() {
-    const {  calendarMonth, calendarYear } = useSelector(state => state);
+  const {  calendarMonth, calendarYear } = useSelector(state => state);
   const dispatch = useDispatch();
   // When setting default state for calendar month must convert to proper "MM" format  
   const [ dateString, setDateString ] = useState(`${calendarYear}-${(0 + (calendarMonth + 1).toString()).slice(-2)}`);
@@ -15,7 +15,13 @@ function Home() {
       const dateObj = dateStringToObject(e.target.value);
       dispatch(setMonth(dateObj.month, dateObj.year));
   }
-
+  console.log(calendarModule().getDaysCalendar([
+      {
+        year: 2012,
+        month: 5,
+        number: 12  
+      }
+    ]))
   return (
     <div>
         <div>Home</div>

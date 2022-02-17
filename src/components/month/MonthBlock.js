@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { WEEKDAYS } from '../../calendarData';
 import { useState } from 'react';
-import { createWeek, calculateIsToday } from '../../calendarFunctions';
+import { createWeek, calendarModule } from '../../calendarFunctions';
 import { useSelector } from 'react-redux';
 
 function MonthBlock(props) {
@@ -16,7 +16,7 @@ function MonthBlock(props) {
   const thisWeek = createWeek(dayArray, props.day);
   // console.log(thisWeek);
   // Lets highlight day if it is today... need to create date object to do that
-  const isToday = calculateIsToday(props.day);
+  const isToday = calendarModule(props.day).isToday();
   // To label each day with a weekday, will simply check modulus of the index (index % 7)
   const dayColor = inMonth ? '#0d53f7' : '#4e6a87';
   return (

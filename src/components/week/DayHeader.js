@@ -1,15 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { WEEKDAYS } from '../../calendarData';
-import { isPast, calculateIsToday } from '../../calendarFunctions'
+import { calendarModule } from '../../calendarFunctions'
 
 function DayHeader(props) {
-    const currentDate = new Date();
-    const isToday = calculateIsToday(props.day);
+    const isToday = calendarModule(props.day).isToday();
     const { number, month, year } = props.day;
     return (
     <DayHeaderContainer>
-        <InnerHeader isPast={isPast(props.day)} >
+        <InnerHeader isPast={calendarModule(props.day).isPast()} >
             {WEEKDAYS[props.index]} {number}
         </InnerHeader>
     </DayHeaderContainer>

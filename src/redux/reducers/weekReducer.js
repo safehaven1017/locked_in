@@ -1,18 +1,14 @@
-import { createMonth, createWeek } from "../../calendarFunctions";
-
-const currentDate = new Date();
-const currentMonth = createMonth(currentDate.getFullYear(), currentDate.getMonth());
-const currentWeek = createWeek(currentMonth, )
+import { createMonth, calendarModule } from "../../calendarFunctions";
 
 const defaultState = {
-    dayArray: createMonth(currentDate.getFullYear(), currentDate.getMonth()),
-    calendarMonth: currentDate.getMonth(),
-    calendarYear: currentDate.getFullYear(),
+    dayArray: calendarModule().getWeekCalendar(),
+    calendarMonth: calendarModule().getCurrentDate().getMonth(),
+    calendarYear: calendarModule().getCurrentDate().getFullYear(),
 };
 
-export default function monthReducer(state = defaultState, action) {
+export default function weekReducer(state = defaultState, action) {
     switch (action.type) {
-        case "SET_MONTH":
+        case "SET_WEEK":
             return {
                 ...state,
                 dayArray: createMonth(action.calendarYear, action.calendarMonth),
