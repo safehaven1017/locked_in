@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MonthBlock from './MonthBlock';
 import { MONTHS } from '../../calendarData';
 import { useSelector, useDispatch } from 'react-redux';
-import { nextMonth, setMonth } from '../../redux/actions/monthActions';
+import { previousMonth, nextMonth, setMonth } from '../../redux/actions/monthActions';
 import { createMonth } from '../../calendarFunctions';
 import { useEffect } from 'react';
 
@@ -15,8 +15,8 @@ function MonthCalendar() {
   return (
     <PageContainer>
       <h2>{MONTHS[calendarMonth]} {calendarYear}</h2>
-      <button onClick={() => dispatch(nextMonth((calendarMonth === 0 ? 11 : calendarMonth - 1), (calendarMonth === 0 ? calendarYear - 1 : calendarYear)))} >previous month</button>
-      <button onClick={() => dispatch(nextMonth(((calendarMonth + 1) % 12), (calendarMonth === 11 ? calendarYear + 1 : calendarYear)))} >next month</button>
+      <button onClick={() => dispatch(previousMonth(calendarMonth, calendarYear))} >previous month</button>
+      <button onClick={() => dispatch(nextMonth(calendarMonth, calendarYear))} >next month</button>
       <CalendarContainer>
         {monthArray.map((day, index) => <MonthBlock monthArray={monthArray} day={day} index={index} key={index} />)}
       </CalendarContainer>
