@@ -11,8 +11,6 @@ function MonthBlock(props) {
   const day = number;
   // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view
   const [ isHover, setIsHover ] = useState(false);
-  // const propDate = new Date(year, month)
-  // const monthOfIndex = (inMonth === false && number > 15) ? month - 1 
   const [ thisWeek, setThisWeek ] = useState(createWeek(props.monthArray, props.index))
   // Lets highlight day if it is today... need to create date object to do that
   const today = new Date();

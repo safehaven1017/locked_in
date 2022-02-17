@@ -71,7 +71,7 @@ export function findMonthFromMonth(month) {
     }
   }
 
-// determine if a day object has already past by comparing it todays date
+// Determine if a day object has already past by comparing it todays date
 export function isPast(day) {
  const todaysDate = new Date();
  if (todaysDate.getFullYear() > day.year) {
@@ -83,4 +83,13 @@ export function isPast(day) {
  } else {
      return false;
  }
+}
+
+// Convert "YYYY-MM" date string to numbers
+export function dateStringToObject(string) {
+    const splitDate = string.split('-');
+    return {
+        month: parseInt(splitDate[1]) - 1,
+        year: parseInt(splitDate[0])
+    }
 }

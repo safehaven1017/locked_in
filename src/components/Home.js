@@ -1,17 +1,27 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { dateStringToObject } from '../calendarFunctions';
+import { setMonth } from '../redux/actions/monthActions';
 
 
 function Home() {
-  const { monthArray, calendarMonth, calendarYear } = useSelector(state => state);
-  const [ monthNum, setMonthNum ] = useState(calendarMonth);
+  const {  calendarMonth, calendarYear } = useSelector(state => state);
+  const dispatch = useDispatch();
+  // When setting default state for calendar month must convert to proper "MM" format  
+  const [ dateString, setDateString ] = useState(`${calendarYear}-${(0 + (calendarMonth + 1).toString()).slice(-2)}`);
+  // Function will dispatch date to global state on change
+  const handleChange = (e) => {
+      setDateString(e.target.value);
+      const dateObj = dateStringToObject(e.target.value);
+      dispatch(setMonth(dateObj.month, dateObj.year));
+  }
+
   return (
     <div>
         <div>Home</div>
         <Link to="/MonthPage">Month Page</Link>
-        <button onClick={() => setMonthNum((monthNum + 1) % 12)} >up</button>
-        <div>{monthNum}</div>
+        <input type="month" value={dateString} onChange={(e) => handleChange(e)} />
     </div>
   )
 }

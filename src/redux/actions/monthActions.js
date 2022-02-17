@@ -1,7 +1,6 @@
-export const setMonth = (monthArray, calendarMonth, calendarYear) => {
+export const setMonth = (calendarMonth, calendarYear) => {
     return {
         type: 'SET_MONTH',
-        monthArray,
         calendarMonth,
         calendarYear
     }

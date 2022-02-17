@@ -12,8 +12,7 @@ export default function monthReducer(state = defaultState, action) {
     switch (action.type) {
         case "SET_MONTH":
             return {
-                ...state,
-                monthArray: [action.monthArray],
+                monthArray: createMonth(action.calendarYear, action.calendarMonth),
                 calendarMonth: action.calendarMonth,
                 calendarYear: action.calendarYear
             };
