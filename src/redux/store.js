@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import monthReducer from "./reducer";
+import monthReducer from "./reducers/monthReducer";
 import { devToolsEnhancer } from '@redux-devtools/extension';
 
 const store = createStore(monthReducer, devToolsEnhancer());

@@ -8,7 +8,7 @@ import { previousMonth, nextMonth } from '../../redux/actions/monthActions';
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
 function MonthCalendar() {
-  const { monthArray, calendarMonth, calendarYear } = useSelector(state => state);
+  const { dayArray, calendarMonth, calendarYear } = useSelector(state => state);
   const dispatch = useDispatch();
   return (
     <PageContainer>
@@ -16,7 +16,7 @@ function MonthCalendar() {
       <button onClick={() => dispatch(previousMonth(calendarMonth, calendarYear))} >previous month</button>
       <button onClick={() => dispatch(nextMonth(calendarMonth, calendarYear))} >next month</button>
       <CalendarContainer>
-        {monthArray.map((day, index) => <MonthBlock day={day} index={index} key={index} />)}
+        {dayArray.map((day, index) => <MonthBlock day={day} index={index} key={index} />)}
       </CalendarContainer>
     </PageContainer>
   )

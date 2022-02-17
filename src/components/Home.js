@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom'
 import { dateStringToObject } from '../calendarFunctions';
 import { setMonth } from '../redux/actions/monthActions';
 
-
 function Home() {
-  const {  calendarMonth, calendarYear } = useSelector(state => state);
+    const {  calendarMonth, calendarYear } = useSelector(state => state);
   const dispatch = useDispatch();
   // When setting default state for calendar month must convert to proper "MM" format  
   const [ dateString, setDateString ] = useState(`${calendarYear}-${(0 + (calendarMonth + 1).toString()).slice(-2)}`);

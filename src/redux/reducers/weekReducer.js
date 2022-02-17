@@ -1,11 +1,13 @@
-// import { combineReducers } from "redux";
-import { createMonth } from "../calendarFunctions";
+import { createMonth, createWeek } from "../../calendarFunctions";
 
 const currentDate = new Date();
+const currentMonth = createMonth(currentDate.getFullYear(), currentDate.getMonth());
+const currentWeek = createWeek(currentMonth, )
+
 const defaultState = {
-    monthArray: createMonth(currentDate.getFullYear(), currentDate.getMonth()),
+    dayArray: createMonth(currentDate.getFullYear(), currentDate.getMonth()),
     calendarMonth: currentDate.getMonth(),
-    calendarYear: currentDate.getFullYear()
+    calendarYear: currentDate.getFullYear(),
 };
 
 export default function monthReducer(state = defaultState, action) {
@@ -13,7 +15,7 @@ export default function monthReducer(state = defaultState, action) {
         case "SET_MONTH":
             return {
                 ...state,
-                monthArray: createMonth(action.calendarYear, action.calendarMonth),
+                dayArray: createMonth(action.calendarYear, action.calendarMonth),
                 calendarMonth: action.calendarMonth,
                 calendarYear: action.calendarYear
             };
@@ -22,7 +24,7 @@ export default function monthReducer(state = defaultState, action) {
             const prevYear = (action.calendarMonth === 0 ? action.calendarYear - 1 : action.calendarYear);
             return {
                 ...state,
-                monthArray: createMonth(prevYear, prevMonth),
+                dayArray: createMonth(prevYear, prevMonth),
                 calendarMonth: prevMonth,
                 calendarYear: prevYear
             };
@@ -31,7 +33,7 @@ export default function monthReducer(state = defaultState, action) {
             const nextYear = (action.calendarMonth === 11 ? action.calendarYear + 1 : action.calendarYear);
             return {
                 ...state,
-                monthArray: createMonth(nextYear, nextMonth),
+                dayArray: createMonth(nextYear, nextMonth),
                 calendarMonth: nextMonth,
                 calendarYear: nextYear
             };
@@ -39,7 +41,3 @@ export default function monthReducer(state = defaultState, action) {
             return state;
     }
 }
-
-// export default combineReducers({
-//     monthReducer
-// });
