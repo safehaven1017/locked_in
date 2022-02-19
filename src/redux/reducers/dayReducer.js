@@ -1,41 +1,51 @@
 import { createMonth, calendarModule } from "../../calendarFunctions";
 
 const defaultState = {
-    day: calendarModule().getWeekCalendar(),
+    day: calendarModule().getDaysCalendar(),
     calendarMonth: calendarModule().getCurrentDate().getMonth(),
     calendarYear: calendarModule().getCurrentDate().getFullYear(),
 };
 
-export default function weekReducer(state = defaultState, action) {
+export default function dayReducer(state = defaultState, action) {
     switch (action.type) {
         case "SET_DAY":
             return {
                 ...state,
-                dayArray: (Array.isArray(action.dayOrWeek) ? 
-                calendarModule(action.dayOrWeek).getDaysCalendar() 
-                : 
-                calendarModule(action.dayOrWeek).getWeekCalendar()
-                ),
-                calendarMonth: action.calendarMonth,
-                calendarYear: action.calendarYear
+                day: action.day,
+                calendarMonth: action.day.month,
+                calendarYear: action.day.year
             };
-        case "PREVIOUS_WEEK":
-            const prevMonth = (action.calendarMonth === 0 ? 11 : action.calendarMonth - 1);
-            const prevYear = (action.calendarMonth === 0 ? action.calendarYear - 1 : action.calendarYear);
+        case "PREVIOUS_DAY":
             return {
                 ...state,
-                dayArray: createMonth(prevYear, prevMonth),
-                calendarMonth: prevMonth,
-                calendarYear: prevYear
+                day: action.day.number === 1 ?
+                    createMonth(action.day.year, action.day.month - 1).reverse().find(day => day.inMonth)
+                    :
+                    action.day.number - 1,
+                calendarMonth: action.day.number === 1 ?
+                    new Date(action.day.year, action.day.month - 1).getMonth()
+                    :
+                    action.day.month,
+                calendarYear: action.day.number === 1 && action.day.month === 0 ?
+                    action.day.year - 1
+                    :
+                    action.day.year
             };
-        case "NEXT_WEEK":
-            const nextMonth = ((action.calendarMonth + 1) % 12);
-            const nextYear = (action.calendarMonth === 11 ? action.calendarYear + 1 : action.calendarYear);
+        case "NEXT_DAY":
             return {
                 ...state,
-                dayArray: createMonth(nextYear, nextMonth),
-                calendarMonth: nextMonth,
-                calendarYear: nextYear
+                day: createMonth(action.day.year, action.day.month).reverse().find(day => day.inMonth).number === action.day.number ?
+                    createMonth(action.day.year, action.day.month + 1).find(day => day.inMonth)
+                    :
+                    action.day + 1,
+                calendarMonth: createMonth(action.day.year, action.day.month).reverse().find(day => day.inMonth).number === action.day.number ?
+                    new Date(action.day.year, action.day.month + 1).getMonth()
+                    :
+                    action.day.month,
+                calendarYear: createMonth(action.day.year, action.day.month).reverse().find(day => day.inMonth).number === action.day.number && action.day.month === 11 ?
+                    action.day.year + 1
+                    :
+                    action.day.year
             };
         default:
             return state;
