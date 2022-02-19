@@ -70,7 +70,12 @@ export function getFirstWeek(monthArray) {
     return monthArray.filter((_, index) => index < 7);
 }
 
-//
+// Load end week of month
+export function getEndWeek(monthArray) {
+    return monthArray.filter((_, index) => index > monthArray.length - 8);
+}
+
+// Load previous week: determine what week to load based on what days of the week are "inMonth"
 export function getPreviousWeek(weekArray) {
     if (!weekArray[0].inMonth) {
         const newMonth = createMonth(weekArray[0].year, weekArray[0].month);
@@ -82,11 +87,19 @@ export function getPreviousWeek(weekArray) {
     }
 } 
 
-// Load end week of month
-export function getEndWeek(monthArray) {
-    return monthArray.filter((_, index) => index > monthArray.length - 8);
+// Load next week: determine what week to load based on what days of the week are "inMonth"
+export function getNextWeek(weekArray) {
+    if (weekArray[0].week > 0 && weekArray[6].number < 8) {
+        const newMonth = createMonth(weekArray[6].year, weekArray[6].month);
+        return newMonth.filter((_, index) => index > 6 && index < 14);
+    } else if (!weekArray.find(day => !day.inMonth) && JSON.stringify(getEndWeek(createMonth(weekArray[0].year, weekArray[0].month))) === JSON.stringify(weekArray)) {
+        return getFirstWeek(createMonth(weekArray[0].year, weekArray[0].month + 1));
+    } else {
+        return createMonth(weekArray[6].year, weekArray[6].month).filter(day => day.week === weekArray[6].week + 1);
+    }
 }
 
+// Created library to handle a few common things with a day object
 export function calendarModule(day = { year: new Date().getFullYear(), month: new Date().getMonth(), number: new Date().getDate() }) {
     return {
         getCurrentDate: () => {

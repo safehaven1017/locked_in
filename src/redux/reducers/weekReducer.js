@@ -1,4 +1,4 @@
-import { createMonth, calendarModule, findMonthFromCalendar, getPreviousWeek } from "../../calendarFunctions";
+import { createMonth, calendarModule, findMonthFromCalendar, getPreviousWeek, getNextWeek } from "../../calendarFunctions";
 
 const defaultState = {
     dayArray: calendarModule().getWeekCalendar(),
@@ -20,28 +20,26 @@ export default function weekReducer(state = defaultState, action) {
                 calendarYear: action.calendarYear
             };
         case "PREVIOUS_WEEK":
-            const newWeek = getPreviousWeek(action.week);
-            console.log(newWeek);
+            const previousWeek = getPreviousWeek(action.week);
             return {
                 ...state,
-                dayArray: newWeek,
+                dayArray: previousWeek,
                 calendarMonth: action.week[0].week > 0 ?
-                    newWeek[0].inMonth ?
+                    previousWeek[0].inMonth ?
                         action.calendarMonth
                         :
                         new Date(action.calendarYear, action.calendarMonth - 1).getMonth()
                     :
                     action.calendarMonth,
-                calendarYear: newWeek[0].year
+                calendarYear: previousWeek[0].year
             };
         case "NEXT_WEEK":
-            const nextMonth = ((action.calendarMonth + 1) % 12);
-            const nextYear = (action.calendarMonth === 11 ? action.calendarYear + 1 : action.calendarYear);
+            const nextWeek = getNextWeek(action.week);
             return {
                 ...state,
-                dayArray: createMonth(nextYear, nextMonth),
-                calendarMonth: nextMonth,
-                calendarYear: nextYear
+                dayArray: nextWeek,
+                calendarMonth: new Date(nextWeek[0].year, nextWeek[0].month).getMonth(),
+                calendarYear: new Date(nextWeek[0].year, nextWeek[0].month).getFullYear()
             };
         default:
             return state;

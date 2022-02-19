@@ -7,9 +7,10 @@ export const setWeek = (dayOrWeek, calendarMonth, calendarYear) => {
     }
 }
 
-export const nextMonth = (calendarMonth, calendarYear) => {
+export const nextWeek = (week, calendarMonth, calendarYear) => {
     return {
         type: 'NEXT_WEEK',
+        week,
         calendarMonth,
         calendarYear
     }
