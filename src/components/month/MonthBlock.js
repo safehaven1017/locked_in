@@ -1,19 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { WEEKDAYS } from '../../calendarData';
 import { useState } from 'react';
-import { createWeek, calendarModule } from '../../calendarFunctions';
-import { useSelector } from 'react-redux';
+import { calendarModule } from '../../calendarFunctions';
+import { useDispatch } from 'react-redux';
+import { setWeek } from '../../redux/actions/weekActions';
+import { setMonth } from '../../redux/actions/monthActions';
 
 function MonthBlock(props) {
-  const dayArray = useSelector(state => state.dayArray);
+  // const dayArray = useSelector(state => state.month.dayArray);
   // Deconstructing props
   const { number, week, month, year, inMonth } = props.day;
   const day = number;
+  // When user clicks on link, we set the week global state then navigate to weekpage
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const changeWeek = () => {
+    dispatch(setWeek(props.day, month, year));
+    dispatch(setMonth(month, year));
+    navigate("/WeekPage");
+  }
   // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view
   const [ isHover, setIsHover ] = useState(false);
-  const thisWeek = createWeek(dayArray, props.day);
   // console.log(thisWeek);
   // Lets highlight day if it is today... need to create date object to do that
   const isToday = calendarModule(props.day).isToday();
@@ -22,7 +31,7 @@ function MonthBlock(props) {
   return (
     <StyledDay day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
         <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
-        <WeekLink to="/WeekPage" state={thisWeek} >
+        <WeekLink onClick={() => changeWeek()} >
             <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         </WeekLink>
         <Block isHover={isHover} > 
@@ -87,7 +96,7 @@ const WeekdayContainer = styled.span`
     font-weight: ${props => props.inMonth ? 700 : 400};
     `;
 
-const WeekLink = styled(Link)`
+const WeekLink = styled.a`
     width: 1.7vw;
     height: 1.7vw;
     left: 82%;
@@ -96,6 +105,7 @@ const WeekLink = styled(Link)`
     text-decoration: none;
     transition: color .5s, background-color .5s;
     border-radius: 6px;
+    cursor: pointer;
     &:hover {
         color: white;
         background-color: #0d53f7;
@@ -109,11 +119,11 @@ const NumberContainer = styled.span`
     width: 1.7vw;
     height: 1.7vw;
     transition: color .5s, background-color .5s;
-    color: ${props => props.isToday ? (props.isHover ? "red" : "white") : (props.inMonth ? "#0d53f7" : "#4e6a87")};
+    color: ${props => props.isHover ? (props.isToday ? "white" : "red") : (props.inMonth ? "#0d53f7" : "#4e6a87")};
     text-align: center;
     font-size: 1.5vh;
     font-weight: ${props => props.inMonth ? 700 : 400};
-    background-color: ${props => props.isToday ? (props.isHover ? "white" : "red") : "transparent"};
+    background-color: ${props => props.isHover ? (props.isToday ? "red" : "white") : "transparent"};
     border-radius: 6px;
     text-decoration: none;
  `;

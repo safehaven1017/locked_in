@@ -4,12 +4,14 @@ import MonthBlock from './MonthBlock';
 import { MONTHS } from '../../calendarData';
 import { useSelector, useDispatch } from 'react-redux';
 import { previousMonth, nextMonth } from '../../redux/actions/monthActions';
+import { useParams } from 'react-router-dom';
 
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
 function MonthCalendar() {
-  const { dayArray, calendarMonth, calendarYear } = useSelector(state => state);
+  const { dayArray, calendarMonth, calendarYear } = useSelector(state => state.month);
   const dispatch = useDispatch();
+  const params = useParams()
   return (
     <PageContainer>
       <h2>{MONTHS[calendarMonth]} {calendarYear}</h2>
@@ -23,6 +25,8 @@ function MonthCalendar() {
 }
 
 export const PageContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

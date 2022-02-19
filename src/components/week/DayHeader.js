@@ -2,13 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { WEEKDAYS } from '../../calendarData';
 import { calendarModule } from '../../calendarFunctions'
+import { useDispatch } from 'react-redux';
 
 function DayHeader(props) {
     const isToday = calendarModule(props.day).isToday();
     const { number, month, year } = props.day;
     return (
     <DayHeaderContainer>
-        <InnerHeader isPast={calendarModule(props.day).isPast()} >
+        <InnerHeader onClick={() => console.log('clicked!')} isPast={calendarModule(props.day).isPast()} >
             {WEEKDAYS[props.index]} {number}
         </InnerHeader>
     </DayHeaderContainer>
@@ -21,13 +22,14 @@ const DayHeaderContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    align-self: flex-end;
     `
 
 const InnerHeader = styled.span`
   color: ${props => !props.isPast ? '#0d53f7' : '#4e6a87'};
   font-size: 2vw;
   border-radius: 15px;
-  padding: 13px;
+  cursor: pointer;
 `
 
 export default DayHeader;

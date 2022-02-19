@@ -84,8 +84,6 @@ export function calendarModule(day = { year: new Date().getFullYear(), month: ne
             }
         },
         getWeekCalendar: () => {
-            console.log(createMonth(day.year, day.month))
-            console.log(calendarModule(day).getDaysCalendar());
             return createWeek(createMonth(day.year, day.month), calendarModule(day).getDaysCalendar()); 
         },
         // Determine if a day object has already past by comparing it todays date

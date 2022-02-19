@@ -15,13 +15,6 @@ function Home() {
       const dateObj = dateStringToObject(e.target.value);
       dispatch(setMonth(dateObj.month, dateObj.year));
   }
-  console.log(calendarModule().getDaysCalendar([
-      {
-        year: 2012,
-        month: 5,
-        number: 12  
-      }
-    ]))
   return (
     <div>
         <div>Home</div>

@@ -1,14 +1,14 @@
 import { createMonth, calendarModule } from "../../calendarFunctions";
 
 const defaultState = {
-    dayArray: calendarModule().getWeekCalendar(),
+    day: calendarModule().getWeekCalendar(),
     calendarMonth: calendarModule().getCurrentDate().getMonth(),
     calendarYear: calendarModule().getCurrentDate().getFullYear(),
 };
 
 export default function weekReducer(state = defaultState, action) {
     switch (action.type) {
-        case "SET_WEEK":
+        case "SET_DAY":
             return {
                 ...state,
                 dayArray: (Array.isArray(action.dayOrWeek) ? 
@@ -20,18 +20,13 @@ export default function weekReducer(state = defaultState, action) {
                 calendarYear: action.calendarYear
             };
         case "PREVIOUS_WEEK":
-            const newWeek = action.day.week === 0 ? 
-                action.day.inMonth ?
-                createMonth(action.calendarYear, action.calendarMonth - 1).filter((_, index) => index > createMonth(action.calendarYear, action.calendarMonth - 1).length - 8)
-                :
-                createMonth(action.calendarYear, action.calendarMonth - 1).filter((_, index) => index > createMonth(action.calendarYear, action.calendarMonth - 1).length - 15)
-            :
-            createMonth(action.calendarYear, action.calendarMonth).filter(day => day.week === action.day.week - 1);
+            const prevMonth = (action.calendarMonth === 0 ? 11 : action.calendarMonth - 1);
+            const prevYear = (action.calendarMonth === 0 ? action.calendarYear - 1 : action.calendarYear);
             return {
                 ...state,
-                dayArray: newWeek,
-                calendarMonth: newWeek[0].month,
-                calendarYear: newWeek[0].year
+                dayArray: createMonth(prevYear, prevMonth),
+                calendarMonth: prevMonth,
+                calendarYear: prevYear
             };
         case "NEXT_WEEK":
             const nextMonth = ((action.calendarMonth + 1) % 12);
