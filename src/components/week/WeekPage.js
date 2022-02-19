@@ -35,12 +35,12 @@ const DayHeaderContainer = styled(CalendarContainer)`
   flex-grow: 1;
   align-self: flex-end;
 `
-const WeekTitle = styled.h1`
+export const WeekTitle = styled.h1`
   display: flex;
   margin: 0;
 `
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
