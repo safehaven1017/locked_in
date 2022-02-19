@@ -15,10 +15,10 @@ export const nextMonth = (calendarMonth, calendarYear) => {
     }
 }
 
-export const previousMonth = (day, calendarMonth, calendarYear) => {
+export const previousWeek = (week, calendarMonth, calendarYear) => {
     return {
         type: 'PREVIOUS_WEEK',
-        day,
+        week,
         calendarMonth,
         calendarYear
     }

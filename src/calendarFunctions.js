@@ -65,6 +65,28 @@ export function createWeek(monthArray, day) {
     return monthArray.filter(monthDay => monthDay.week === day.week);
 }
 
+// Load first week of month
+export function getFirstWeek(monthArray) {
+    return monthArray.filter((_, index) => index < 7);
+}
+
+//
+export function getPreviousWeek(weekArray) {
+    if (!weekArray[0].inMonth) {
+        const newMonth = createMonth(weekArray[0].year, weekArray[0].month);
+        return newMonth.filter((_, index) => index > newMonth.length - 15 && index < newMonth.length - 7)
+    } else if (weekArray[0].week === 0 && weekArray[0].inMonth) {
+        return getEndWeek(createMonth(weekArray[0].year, weekArray[0].month - 1));
+    } else {
+        return createMonth(weekArray[0].year, weekArray[0].month).filter(day => day.week === weekArray[0].week - 1);
+    }
+} 
+
+// Load end week of month
+export function getEndWeek(monthArray) {
+    return monthArray.filter((_, index) => index > monthArray.length - 8);
+}
+
 export function calendarModule(day = { year: new Date().getFullYear(), month: new Date().getMonth(), number: new Date().getDate() }) {
     return {
         getCurrentDate: () => {
@@ -118,7 +140,8 @@ export function findMonthFromWeek(week) {
       month: validDay.month
     }
   }
-// Finds the first day that is part of the selected week to display the name of the month
+
+// Finds the first day that is part of the selected week to display the month/year
 export function findMonthFromCalendar(dayArray) {
     const validDay = dayArray.find(day => day.inMonth === true);
     return {
