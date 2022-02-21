@@ -6,6 +6,8 @@ import { calendarModule, createMonth } from '../../calendarFunctions';
 import { useDispatch } from 'react-redux';
 import { setDay } from '../../redux/actions/dayActions';
 import { useNavigate } from 'react-router-dom';
+import { setWeek } from '../../redux/actions/weekActions';
+import { setMonth } from '../../redux/actions/monthActions';
 
 function MonthInYearCal(props) {
   const month = createMonth(props.year, props.index);
@@ -13,11 +15,13 @@ function MonthInYearCal(props) {
   const navigate = useNavigate();
   const handleDayClick = (day) => {
     dispatch(setDay(day));
+    dispatch(setWeek(day, day.month, day.year));
+    dispatch(setMonth(day.month, day.year));
     navigate("/DayPage");
   }
   return (
     <MonthInYearContainer>
-      <MonthHeader>{MONTHS[props.index]}</MonthHeader>
+      <MonthHeader month={props.index} year={props.year} thisYear={props.thisYear} >{MONTHS[props.index]}</MonthHeader>
       <MiniMonthCalendar>{month.map((day, index) => <DayNumber onClick={() => handleDayClick(day)} day={day} key={index} >{day.number}</DayNumber>)}</MiniMonthCalendar>
     </MonthInYearContainer>
   )
@@ -35,6 +39,17 @@ const MonthHeader = styled.h1`
     margin-bottom: 1vw;
     font-weight: 300;
     font-size: 1.5vw;
+    color: ${props => props.year < props.thisYear ? 
+      '#4e6a87' 
+      : 
+      props.year === props.thisYear && props.month < new Date().getMonth() ?
+        '#4e6a87'
+        :
+        props.year === props.thisYear && props.month === new Date().getMonth() ?
+        'red'
+        :
+        'inherit'
+    }
 `
 
 const MiniMonthCalendar = styled(CalendarContainer)`

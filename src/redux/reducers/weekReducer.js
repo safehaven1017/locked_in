@@ -1,4 +1,4 @@
-import { createMonth, calendarModule, findMonthFromCalendar, getPreviousWeek, getNextWeek } from "../../calendarFunctions";
+import { calendarModule, getPreviousWeek, getNextWeek } from "../../calendarFunctions";
 
 const defaultState = {
     dayArray: calendarModule().getWeekCalendar(),

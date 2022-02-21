@@ -8,16 +8,16 @@ import { useNavigate } from 'react-router-dom';
 
 function DayHeader(props) {
     const isToday = calendarModule(props.day).isToday();
-    const { number, month, year } = props.day;
+    const { number } = props.day;
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const navigateToDay = () => {
+    const handleNavigateToDay = () => {
         dispatch(setDay(props.day));
         navigate("/DayPage");
     }
     return (
     <DayHeaderContainer>
-        <InnerHeader isToday={isToday} onClick={navigateToDay} isPast={calendarModule(props.day).isPast()} >
+        <InnerHeader isToday={isToday} onClick={handleNavigateToDay} isPast={calendarModule(props.day).isPast()} >
             {WEEKDAYS[props.index]} {number}
         </InnerHeader>
     </DayHeaderContainer>
