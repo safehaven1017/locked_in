@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
-import { dateStringToObject, calendarModule } from '../calendarFunctions';
+import { dateStringToObject } from '../calendarFunctions';
 import { setMonth } from '../redux/actions/monthActions';
 
 function Home() {
@@ -26,6 +26,6 @@ function Home() {
         <input type="month" value={dateString} onChange={(e) => handleChange(e)} />
     </div>
   )
-}
+  }
 
 export default Home
