@@ -35,7 +35,7 @@ function MonthBlock(props) {
   return (
     <StyledDay day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
         <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
-        <WeekLink onClick={() => handleGoToDay()} >
+        <WeekLink isToday={isToday} onClick={() => handleGoToDay()} >
             <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         </WeekLink>
         {/* <Block isHover={isHover} > 
@@ -99,6 +99,7 @@ const WeekdayContainer = styled.span`
     `;
 
 const WeekLink = styled.a`
+    color: ${props => props.isToday ? 'red !important' : 'inherit'};
     width: 1.7vw;
     height: 1.7vw;
     left: 82%;
@@ -121,7 +122,7 @@ const NumberContainer = styled.span`
     width: 1.7vw;
     height: 1.7vw;
     transition: color .5s, background-color .5s;
-    color: ${props => props.isHover ? (props.isToday ? "white" : "red") : (props.inMonth ? "#0d53f7" : "#4e6a87")};
+    color: ${props => props.isHover ? (props.isToday ? "white" : "red") : (props.isToday ? "red" : props.inMonth ? '#0d53f7': "#4e6a87")};
     text-align: center;
     font-size: 1.5vh;
     font-weight: ${props => props.inMonth ? 700 : 400};

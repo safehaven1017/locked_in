@@ -32,7 +32,7 @@ function App() {
   return (
     <div>
       <ViewDropdown onClick={() => setDropdown(!dropdown)} >
-        <SelectedView>{dropdownText}</SelectedView>
+        <SelectedView>{dropdownText}<DownArrow>╲╱</DownArrow></SelectedView>
         <Dropdown>
           <DropdownContent dropdown={dropdown} >            
             {location.pathname !== "/YearPage" && <StyledLink to="/YearPage">Year View</StyledLink>}
@@ -63,7 +63,15 @@ const ViewDropdown = styled.div`
   /* margin-left: 1vw; */
   box-sizing: border-box;
   box-shadow: 0px 0px 2px 1px #00000040;
-`
+  `
+
+const DownArrow = styled.span`
+  height: 1vw;
+  font-weight: 800;
+  margin-left: 7vw;
+  border-radius: 10px;
+  `
+
 const SelectedView = styled.button`
   border-style: none;
   background-color: white;
@@ -75,6 +83,11 @@ const SelectedView = styled.button`
   font-size: 1vw;
   border-radius: 7px;
   color: red;
+  transition: .3s;
+  &:hover {
+    background-color: red;
+    color: white;
+  }
 `
 
 const Dropdown = styled.div`
@@ -89,10 +102,10 @@ const DropdownContent = styled.div`
   width: 17vw;
   height: 10vh;
   background-color: white;
-  /* border-bottom-left-radius: 7px; */
-  /* border-bottom-right-radius: 7px; */
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
   box-shadow: 0px 4px 2px 1px #00000040;
-  margin-top: -10px;
+  margin-top: -7px;
 `
 
 const StyledLink = styled(Link)`
