@@ -10,7 +10,8 @@ import { previousDay, nextDay } from '../../redux/actions/dayActions'
 import { setWeek } from '../../redux/actions/weekActions';
 import { setMonth } from '../../redux/actions/monthActions';
 import { setYear } from '../../redux/actions/yearActions';
-import { PrevButton, NextButton, YearHeader, TitleContainer } from '../year/YearPage';
+import { PrevButton, NextButton } from '../year/YearPage';
+import { TitleContainer } from '../year/TitleContainer';
 
 function DayPage() {
     const { day } = useSelector(state => state.day);

@@ -8,8 +8,9 @@ import WeekCalendar from './WeekCalendar';
 import { previousWeek, nextWeek } from '../../redux/actions/weekActions';
 import { setMonth } from '../../redux/actions/monthActions';
 import { setDay } from '../../redux/actions/dayActions';
-import { PrevButton, NextButton, YearHeader, TitleContainer } from '../year/YearPage';
+import { PrevButton, NextButton, YearHeader } from '../year/YearPage';
 import { getNextWeek, getPreviousWeek } from '../../calendarFunctions';
+import { TitleContainer } from '../year/TitleContainer';
 
 function WeekPage() {
   const { dayArray, calendarMonth, calendarYear } = useSelector(state => state.week);
@@ -59,6 +60,7 @@ const DayHeaderContainer = styled(CalendarContainer)`
 export const WeekTitle = styled(YearHeader)``;
 
 const WTitleContainer = styled(TitleContainer)`
+  width: 30vw;
   color: ${props => props.isPast ? '#4e6a87' : props.isToday ? 'red' : '#0d53f7'};
 `
 

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { setWeek } from '../../redux/actions/weekActions';
 import { setMonth } from '../../redux/actions/monthActions';
 
-function MonthInYearCal(props) {
+export default function MonthInYearCal(props) {
   const month = createMonth(props.year, props.index);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -85,4 +85,4 @@ const DayNumber = styled.div`
   }
 `
 
-export default MonthInYearCal;
+/* export default MonthInYearCal; */

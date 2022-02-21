@@ -8,6 +8,7 @@ import { nextYear, previousYear } from '../../redux/actions/yearActions';
 import { setDay } from '../../redux/actions/dayActions';
 import { setMonth } from '../../redux/actions/monthActions';
 import { setWeek } from '../../redux/actions/weekActions';
+import { TitleContainer } from './TitleContainer';
 
 function YearPage() {
     const year = useSelector(state => state.year);
@@ -48,20 +49,13 @@ const YearCalendarContainer = styled(CalendarContainer)`
 
 export const YearHeader = styled.div`
     height: 15vh;
+    width: 70vw;
     margin: 0;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     color: ${props => props.year < props.thisYear ? '#4e6a87' : props.year === props.thisYear ? 'red' : 'inherit'}
-`
-
-export const TitleContainer = styled.h1`
-    width: 20vw;
-    height: 10vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 `
 
 export const PrevButton = styled.button`
