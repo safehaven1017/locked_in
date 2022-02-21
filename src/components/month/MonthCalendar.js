@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { previousMonth, nextMonth } from '../../redux/actions/monthActions';
 import { setYear } from '../../redux/actions/yearActions';
 import { setWeek } from '../../redux/actions/weekActions';
+import { setDay } from '../../redux/actions/dayActions';
 
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
@@ -21,7 +22,12 @@ function MonthCalendar() {
       month: newDate.getMonth(), 
       number: newDate.getDate() 
     }, 
-    newDate.getMonth(), newDate.getFullYear()))
+    newDate.getMonth(), newDate.getFullYear()));
+    dispatch(setDay({ 
+      year: newDate.getFullYear(), 
+      month: newDate.getMonth(), 
+      number: newDate.getDate() 
+    }))
   }
 
   const handleNextMonth = () => {
@@ -33,7 +39,12 @@ function MonthCalendar() {
       month: newDate.getMonth(), 
       number: newDate.getDate() 
     }, 
-    newDate.getMonth(), newDate.getFullYear()))
+    newDate.getMonth(), newDate.getFullYear()));
+    dispatch(setDay({ 
+      year: newDate.getFullYear(), 
+      month: newDate.getMonth(), 
+      number: newDate.getDate() 
+    }))
   }
   return (
     <PageContainer>
