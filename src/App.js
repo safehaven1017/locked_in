@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Link, Redirect } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import YearPage from './components/year/YearPage';
 import MonthPage from './components/month/MonthPage';
