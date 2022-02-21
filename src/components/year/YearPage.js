@@ -30,7 +30,7 @@ function YearPage() {
     }
     return (
    <PageContainer>
-       <YearHeader year={year} thisYear={thisYear} ><button onClick={handlePreviousYear} >Previous</button>{year}<button onClick={handleNextYear} >Next</button></YearHeader>
+       <YearHeader year={year} thisYear={thisYear} ><PrevButton onClick={handlePreviousYear} >◀</PrevButton><TitleContainer>{year}</TitleContainer><NextButton onClick={handleNextYear} >▶</NextButton></YearHeader>
        <YearCalendarContainer>
             {yearArray.map((_, index) => <MonthInYearCal index={index} year={year} thisYear={thisYear} key={index} />)}
        </YearCalendarContainer>
@@ -46,11 +46,49 @@ const YearCalendarContainer = styled(CalendarContainer)`
     border-style: none;
 `
 
-const YearHeader = styled.h1`
+export const YearHeader = styled.div`
+    height: 15vh;
     margin: 0;
     padding: 0;
     display: flex;
+    align-items: center;
+    justify-content: center;
     color: ${props => props.year < props.thisYear ? '#4e6a87' : props.year === props.thisYear ? 'red' : 'inherit'}
+`
+
+export const TitleContainer = styled.h1`
+    width: 20vw;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+export const PrevButton = styled.button`
+    width: 4vw;
+    height: 4vw;
+    border-radius: 100px;
+    box-shadow: 0px 0px 5px 1px #00000020;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2vw;
+    background-color: white;
+    border-style: none;
+    padding-left: .1vw;
+    color: #0d53f7;
+    transition: .3s;
+    &:hover {
+        box-shadow: 0px 0px 5px 1px #0d53f7;
+    }
+    &:active {
+        box-shadow: 0px 0px 5px 1px black;
+        background-color: gray;
+    }
+`
+export const NextButton = styled(PrevButton)`
+    padding-left: .8vw;
 `
 
 export default YearPage;

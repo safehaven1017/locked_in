@@ -8,6 +8,8 @@ import WeekCalendar from './WeekCalendar';
 import { previousWeek, nextWeek } from '../../redux/actions/weekActions';
 import { setMonth } from '../../redux/actions/monthActions';
 import { setDay } from '../../redux/actions/dayActions';
+import { PrevButton, NextButton, YearHeader, TitleContainer } from '../year/YearPage';
+import { getNextWeek, getPreviousWeek } from '../../calendarFunctions';
 
 function WeekPage() {
   const { dayArray, calendarMonth, calendarYear } = useSelector(state => state.week);
@@ -16,19 +18,23 @@ function WeekPage() {
     
     dispatch(previousWeek(dayArray, calendarMonth, calendarYear));
     dispatch(setMonth(calendarMonth, calendarYear));
-    dispatch(setDay(dayArray[0]));
+    dispatch(setDay(getPreviousWeek(dayArray)[0]));
   }
   const handleNextWeek = () => {
     dispatch(nextWeek(dayArray, calendarMonth, calendarYear));
     dispatch(setMonth(calendarMonth, calendarYear));
-    dispatch(setDay(dayArray[0]));
+    dispatch(setDay(getNextWeek(dayArray)[0]));
   }
+  const isToday = calendarMonth === new Date().getMonth() && calendarYear === new Date().getFullYear();
+  const isPast = calendarYear < new Date().getFullYear() ?
+   true : calendarYear === new Date().getFullYear() && calendarMonth < new Date().getMonth() ?
+    true : false;
   return (
     <PageContainer>
       <WeekTitle>
-        <button onClick={handlePreviousWeek} >Previous Week</button>
-        {MONTHS[calendarMonth]} {calendarYear}
-        <button onClick={handleNextWeek} >Next Week</button>
+        <PrevButton onClick={handlePreviousWeek} >◀</PrevButton>
+        <WTitleContainer isPast={isPast} isToday={isToday} >{MONTHS[calendarMonth]} {calendarYear}</WTitleContainer>
+        <NextButton onClick={handleNextWeek} >▶</NextButton>
       </WeekTitle>
       <ContentContainer>
         <DayHeaderContainer>
@@ -50,9 +56,10 @@ const DayHeaderContainer = styled(CalendarContainer)`
   border-style: none;
   box-shadow: none;
 `
-export const WeekTitle = styled.h1`
-  display: flex;
-  margin: 0;
+export const WeekTitle = styled(YearHeader)``;
+
+const WTitleContainer = styled(TitleContainer)`
+  color: ${props => props.isPast ? '#4e6a87' : props.isToday ? 'red' : '#0d53f7'};
 `
 
 export const ContentContainer = styled.div`

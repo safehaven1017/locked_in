@@ -10,6 +10,7 @@ import { previousDay, nextDay } from '../../redux/actions/dayActions'
 import { setWeek } from '../../redux/actions/weekActions';
 import { setMonth } from '../../redux/actions/monthActions';
 import { setYear } from '../../redux/actions/yearActions';
+import { PrevButton, NextButton, YearHeader, TitleContainer } from '../year/YearPage';
 
 function DayPage() {
     const { day } = useSelector(state => state.day);
@@ -39,11 +40,11 @@ function DayPage() {
   return (
     <PageContainer>
       <DayTitle isToday={isToday} isPast={isPast} >
-         <button onClick={handlePreviousDay} >Previous Day</button>
-         <span>{MONTHS[day.month]}  {day.number}, {day.year}</span>
-         <button onClick={handleNextDay} >Next Day</button>
+         <PrevButton onClick={handlePreviousDay} >◀</PrevButton>
+         <TitleContainer>{MONTHS[day.month]}  {day.number}, {day.year}</TitleContainer>
+         <NextButton onClick={handleNextDay} >▶</NextButton>
       </DayTitle>
-      <div style={{fontSize: '3vw', fontWeight: '200'}}>{calendarModule(day).findWeekDay()}</div>
+      <WeekdayDiv isToday={isToday} isPast={isPast} >{calendarModule(day).findWeekDay()}</WeekdayDiv>
       <ContentContainer>
           <WeekCalendar />
       </ContentContainer>
@@ -52,11 +53,24 @@ function DayPage() {
 }
 
 const DayTitle = styled(WeekTitle)`
-    margin-bottom: 5vh;
-    border-radius: 10px;
+    height: 8vh;
+    margin-bottom: 3vh;
+    border-radius: 13px;
     padding: .5vw;
     display: flex;
     ${props => props.isToday ? "background-color: red; color: white;" : props.isPast ? 'color: #4e6a87;' : 'color: #0d53f7;'}
+`
+
+const WeekdayDiv = styled.div`
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  font-size: 3vw;
+  font-weight: 300;
+  ${props => props.isToday ? "background-color: red; color: white;" : props.isPast ? 'color: #4e6a87;' : 'color: #0d53f7;'}
+  border-radius: 13px;
+  padding: .5vw;
+  margin-bottom: 1vw;
 `
 
 export default DayPage;

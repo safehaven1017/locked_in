@@ -7,6 +7,7 @@ import { previousMonth, nextMonth } from '../../redux/actions/monthActions';
 import { setYear } from '../../redux/actions/yearActions';
 import { setWeek } from '../../redux/actions/weekActions';
 import { setDay } from '../../redux/actions/dayActions';
+import { PrevButton, NextButton, YearHeader, TitleContainer } from '../year/YearPage';
 
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
@@ -46,11 +47,17 @@ function MonthCalendar() {
       number: newDate.getDate() 
     }))
   }
+  const isToday = calendarMonth === new Date().getMonth() && calendarYear === new Date().getFullYear();
+  const isPast = calendarYear < new Date().getFullYear() ?
+   true : calendarYear === new Date().getFullYear() && calendarMonth < new Date().getMonth() ?
+    true : false;
   return (
     <PageContainer>
-      <h2>{MONTHS[calendarMonth]} {calendarYear}</h2>
-      <button onClick={handlePreviousMonth} >previous month</button>
-      <button onClick={handleNextMonth} >next month</button>
+      <YearHeader>
+        <PrevButton onClick={handlePreviousMonth} >◀</PrevButton>
+          <MTitleContainer isToday={isToday} isPast={isPast} >{MONTHS[calendarMonth]} {calendarYear}</MTitleContainer>
+        <NextButton onClick={handleNextMonth} >▶</NextButton>
+      </YearHeader>
       <CalendarContainer>
         {dayArray.map((day, index) => <MonthBlock day={day} index={index} key={index} />)}
       </CalendarContainer>
@@ -67,6 +74,10 @@ export const PageContainer = styled.div`
   align-items: center;
   color: #0d53f7;
   overflow: hidden;
+`
+
+const MTitleContainer = styled(TitleContainer)`
+  color: ${props => props.isPast ? '#4e6a87' : props.isToday ? 'red' : '#0d53f7'};
 `
 
 export const CalendarContainer = styled.div`
