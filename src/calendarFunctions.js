@@ -1,3 +1,5 @@
+import { WEEKDAYS } from "./calendarData";
+
 // Create an array of objects that contains information on each day in the month
 // To clarify, "numerical day" and "day" are two different things in the comments - (numerical day ex: 20th) (day ex: a weekday (Thursday))
 export function createMonth(year, month) {
@@ -38,8 +40,8 @@ export function createMonth(year, month) {
     // We'll go ahead and create a date object to determine if the next month is in the next year
     const nextMonth = new Date(year, month + 1, 1);
     // on the last week of this month we should still display the rest of the days of the week even if it is next month
+    let count = 1;
     if (lastDayThisMonth.getDay() < 6) {
-      let count = 1;
       for (let i = lastDayThisMonth.getDay(); i < 6; i++) {
         daysArray.push({
           year: nextMonth.getFullYear(),
@@ -51,6 +53,19 @@ export function createMonth(year, month) {
         count++;
         weekCount++;
       }
+    }
+    // I want each month to have 6 weeks.
+    if (daysArray.length < 42) {
+        for (let i = 0; i < 7; i++) {
+          daysArray.push({
+            year: nextMonth.getFullYear(),
+            month: nextMonth.getMonth(),
+            week: createWeekIndex(weekCount),
+            number: count,
+            inMonth: false
+          });
+          count++;
+        }
     }
     return daysArray;
 }
@@ -121,6 +136,10 @@ export function calendarModule(day = { year: new Date().getFullYear(), month: ne
         getWeekCalendar: () => {
             return createWeek(createMonth(day.year, day.month), calendarModule(day).getDaysCalendar()); 
         },
+        // Find weekday out of seven day week from day object
+        findWeekDay: () => {
+            return WEEKDAYS[calendarModule(day).getWeekCalendar().findIndex(weekday => day.number === weekday.number)];  
+        },
         // Determine if a day object has already past by comparing it todays date
         isToday: () => {
             const today = new Date();
@@ -129,7 +148,8 @@ export function calendarModule(day = { year: new Date().getFullYear(), month: ne
             } else {
                 return false;
             }
-        }, 
+        },
+        // Determine if day is already past 
         isPast: () => {
             const today = new Date();
             if (today.getFullYear() > day.year) {

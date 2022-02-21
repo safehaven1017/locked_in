@@ -21,7 +21,7 @@ export default function dayReducer(state = defaultState, action) {
                 day: action.day.number === 1 ?
                     createMonth(action.day.year, action.day.month - 1).reverse().find(day => day.inMonth)
                     :
-                    action.day.number - 1,
+                    calendarModule({ ...action.day, number: action.day.number - 1 }).getDaysCalendar(),
                 calendarMonth: action.day.number === 1 ?
                     new Date(action.day.year, action.day.month - 1).getMonth()
                     :
@@ -37,7 +37,7 @@ export default function dayReducer(state = defaultState, action) {
                 day: createMonth(action.day.year, action.day.month).reverse().find(day => day.inMonth).number === action.day.number ?
                     createMonth(action.day.year, action.day.month + 1).find(day => day.inMonth)
                     :
-                    action.day + 1,
+                    calendarModule({ ...action.day, number: action.day.number + 1 }).getDaysCalendar(),
                 calendarMonth: createMonth(action.day.year, action.day.month).reverse().find(day => day.inMonth).number === action.day.number ?
                     new Date(action.day.year, action.day.month + 1).getMonth()
                     :

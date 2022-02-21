@@ -6,16 +6,28 @@ import DayHeader from './DayHeader';
 import { useSelector, useDispatch } from 'react-redux';
 import WeekCalendar from './WeekCalendar';
 import { previousWeek, nextWeek } from '../../redux/actions/weekActions';
+import { setMonth } from '../../redux/actions/monthActions';
+import { setDay } from '../../redux/actions/dayActions';
 
 function WeekPage() {
   const { dayArray, calendarMonth, calendarYear } = useSelector(state => state.week);
   const dispatch = useDispatch();
+  const handlePreviousWeek = () => {
+    dispatch(previousWeek(dayArray, calendarMonth, calendarYear));
+    dispatch(setMonth(calendarMonth, calendarYear));
+    dispatch(setDay(dayArray[0]));
+  }
+  const handleNextWeek = () => {
+    dispatch(nextWeek(dayArray, calendarMonth, calendarYear));
+    dispatch(setMonth(calendarMonth, calendarYear));
+    dispatch(setDay(dayArray[0]));
+  }
   return (
     <PageContainer>
       <WeekTitle>
-        <button onClick={() => dispatch(previousWeek(dayArray, calendarMonth, calendarYear))} >Previous Week</button>
+        <button onClick={handlePreviousWeek} >Previous Week</button>
         {MONTHS[calendarMonth]} {calendarYear}
-        <button onClick={() => dispatch(nextWeek(dayArray, calendarMonth, calendarYear))} >Next Week</button>
+        <button onClick={handleNextWeek} >Next Week</button>
       </WeekTitle>
       <ContentContainer>
         <DayHeaderContainer>
