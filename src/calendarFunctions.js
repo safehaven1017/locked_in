@@ -1,6 +1,15 @@
 import { WEEKDAYS } from "./calendarData";
 
-// Create an array of objects that contains information on each day in the month
+// Create a year: an array of 12 month arrays
+export function createYear(year) {
+    const yearArray = [];
+    for (let i = 0; i < 12; i++) {
+        yearArray.push(createMonth(year, i));
+    }
+    return yearArray;
+}
+
+// Create an array of objects that contains information on each day in the month - this was the foundation of my application
 // To clarify, "numerical day" and "day" are two different things in the comments - (numerical day ex: 20th) (day ex: a weekday (Thursday))
 export function createMonth(year, month) {
     const daysArray = [];

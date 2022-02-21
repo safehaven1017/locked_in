@@ -32,6 +32,7 @@ export const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   color: #0d53f7;
+  overflow: hidden;
 `
 
 export const CalendarContainer = styled.div`

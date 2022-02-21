@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { dateStringToObject, calendarModule } from '../calendarFunctions';
 import { setMonth } from '../redux/actions/monthActions';
 
 function Home() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate("/YearPage");
+  });
   const {  calendarMonth, calendarYear } = useSelector(state => state);
   const dispatch = useDispatch();
   // When setting default state for calendar month must convert to proper "MM" format  
