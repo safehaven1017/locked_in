@@ -4,17 +4,42 @@ import MonthBlock from './MonthBlock';
 import { MONTHS } from '../../calendarData';
 import { useSelector, useDispatch } from 'react-redux';
 import { previousMonth, nextMonth } from '../../redux/actions/monthActions';
+import { setYear } from '../../redux/actions/yearActions';
+import { setWeek } from '../../redux/actions/weekActions';
 
 // The purpose of this component is to display a monthly calendar. It should automatically change out number days based on the month
 // each calendar page should display all the weeks encapsulating the month
 function MonthCalendar() {
   const { dayArray, calendarMonth, calendarYear } = useSelector(state => state.month);
   const dispatch = useDispatch();
+  const handlePreviousMonth = () => {
+    const newDate = new Date(calendarYear, calendarMonth - 1);
+    dispatch(setYear(newDate.getFullYear()));
+    dispatch(previousMonth(calendarMonth, calendarYear));
+    dispatch(setWeek({ 
+      year: newDate.getFullYear(), 
+      month: newDate.getMonth(), 
+      number: newDate.getDate() 
+    }, 
+    newDate.getMonth(), newDate.getFullYear()))
+  }
+
+  const handleNextMonth = () => {
+    const newDate = new Date(calendarYear, calendarMonth + 1);
+    dispatch(setYear(newDate.getFullYear()));
+    dispatch(nextMonth(calendarMonth, calendarYear));
+    dispatch(setWeek({ 
+      year: newDate.getFullYear(), 
+      month: newDate.getMonth(), 
+      number: newDate.getDate() 
+    }, 
+    newDate.getMonth(), newDate.getFullYear()))
+  }
   return (
     <PageContainer>
       <h2>{MONTHS[calendarMonth]} {calendarYear}</h2>
-      <button onClick={() => dispatch(previousMonth(calendarMonth, calendarYear))} >previous month</button>
-      <button onClick={() => dispatch(nextMonth(calendarMonth, calendarYear))} >next month</button>
+      <button onClick={handlePreviousMonth} >previous month</button>
+      <button onClick={handleNextMonth} >next month</button>
       <CalendarContainer>
         {dayArray.map((day, index) => <MonthBlock day={day} index={index} key={index} />)}
       </CalendarContainer>
@@ -42,4 +67,3 @@ export const CalendarContainer = styled.div`
 `
 
 export default MonthCalendar;
-

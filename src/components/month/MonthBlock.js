@@ -7,6 +7,8 @@ import { calendarModule } from '../../calendarFunctions';
 import { useDispatch } from 'react-redux';
 import { setWeek } from '../../redux/actions/weekActions';
 import { setMonth } from '../../redux/actions/monthActions';
+import { setYear } from '../../redux/actions/yearActions';
+import { setDay } from '../../redux/actions/dayActions';
 
 function MonthBlock(props) {
   // const dayArray = useSelector(state => state.month.dayArray);
@@ -16,10 +18,12 @@ function MonthBlock(props) {
   // When user clicks on link, we set the week global state then navigate to weekpage
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const changeWeek = () => {
+  const handleGoToDay = () => {
+    dispatch(setDay(props.day))
     dispatch(setWeek(props.day, month, year));
     dispatch(setMonth(month, year));
-    navigate("/WeekPage");
+    dispatch(setYear(year));
+    navigate("/DayPage");
   }
   // Creating states: isHover for css, thisWeek to create a week upon clicking a day to go to week view
   const [ isHover, setIsHover ] = useState(false);
@@ -31,7 +35,7 @@ function MonthBlock(props) {
   return (
     <StyledDay day_color={dayColor} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} >
         <WeekdayContainer inMonth={inMonth} >{WEEKDAYS[props.index % 7]}</WeekdayContainer>
-        <WeekLink onClick={() => changeWeek()} >
+        <WeekLink onClick={() => handleGoToDay()} >
             <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         </WeekLink>
         <Block isHover={isHover} > 

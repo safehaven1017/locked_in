@@ -13,6 +13,7 @@ function WeekPage() {
   const { dayArray, calendarMonth, calendarYear } = useSelector(state => state.week);
   const dispatch = useDispatch();
   const handlePreviousWeek = () => {
+    
     dispatch(previousWeek(dayArray, calendarMonth, calendarYear));
     dispatch(setMonth(calendarMonth, calendarYear));
     dispatch(setDay(dayArray[0]));
