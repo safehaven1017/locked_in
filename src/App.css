@@ -1,4 +1,12 @@
 a:visited {
   text-decoration: none;
-  color: inherit;
+  color: #0d53f7;
+}
+a:link {
+  text-decoration: none;
+  color: #0d53f7;
+}
+a:active {
+  text-decoration: none;
+  color: #0d53f7;
 }

@@ -74,6 +74,7 @@ const SelectedView = styled.button`
   padding-bottom: 5px;
   font-size: 1vw;
   border-radius: 7px;
+  color: red;
 `
 
 const Dropdown = styled.div`
@@ -95,6 +96,7 @@ const DropdownContent = styled.div`
 `
 
 const StyledLink = styled(Link)`
+  color: '#0d53f7';
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,6 +107,12 @@ const StyledLink = styled(Link)`
   &:hover {
     color: white;
     background-color: #ff000085;
+  }
+  &:link {
+    color: '#0d53f7';
+  }
+  &:visited {
+    color: '#0d53f7';
   }
 `
 
