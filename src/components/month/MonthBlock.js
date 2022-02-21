@@ -38,10 +38,6 @@ function MonthBlock(props) {
         <WeekLink isToday={isToday} onClick={() => handleGoToDay()} >
             <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         </WeekLink>
-        {/* <Block isHover={isHover} > 
-            <InnerSpan>WEEK: {week}</InnerSpan>
-            <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>    
-        </Block>   */}
     </StyledDay>
   )
 }
@@ -71,21 +67,6 @@ const StyledDay = styled.div`
   }
   &:nth-last-child(-n+7) {
     border-bottom-style: solid;
-  }
-`;
-
-const Block = styled.button`
-    margin: 0;
-    padding: 0;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border-style: none;
-    &:hover {
-    color: ${props => props.isHover ? "white" : "#0d53f7"};
   }
 `;
 
@@ -130,7 +111,3 @@ const NumberContainer = styled.span`
     border-radius: 6px;
     text-decoration: none;
  `;
-
-const InnerSpan = styled.span`
-    font-size: 10px;
-`
