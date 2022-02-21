@@ -20,6 +20,7 @@ const CalendarContainer = styled.div`
   border-top-style: solid;
   display: flex;
   overflow-x: auto;
+  box-shadow: 0px 3px 5px 1px #00000030;
 `
 
 export default WeekCalendar;

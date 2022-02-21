@@ -75,6 +75,8 @@ export const CalendarContainer = styled.div`
   margin: 5vh;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-width: 3px;
+  box-shadow: 0px 0px 10px 1px #00000030;
 `
 
 export default MonthCalendar;

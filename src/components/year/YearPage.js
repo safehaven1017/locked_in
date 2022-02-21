@@ -42,6 +42,8 @@ const YearCalendarContainer = styled(CalendarContainer)`
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     height: 80vh;
     width: 90vw;
+    box-shadow: none;
+    border-style: none;
 `
 
 const YearHeader = styled.h1`

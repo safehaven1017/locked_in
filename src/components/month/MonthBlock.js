@@ -13,7 +13,7 @@ import { setDay } from '../../redux/actions/dayActions';
 function MonthBlock(props) {
   // const dayArray = useSelector(state => state.month.dayArray);
   // Deconstructing props
-  const { number, week, month, year, inMonth } = props.day;
+  const { number, month, year, inMonth } = props.day;
   const day = number;
   // When user clicks on link, we set the week global state then navigate to weekpage
   const dispatch = useDispatch();
@@ -38,10 +38,10 @@ function MonthBlock(props) {
         <WeekLink onClick={() => handleGoToDay()} >
             <NumberContainer inMonth={inMonth} isToday={isToday} isHover={isHover} >{day}</NumberContainer>
         </WeekLink>
-        <Block isHover={isHover} > 
+        {/* <Block isHover={isHover} > 
             <InnerSpan>WEEK: {week}</InnerSpan>
             <InnerSpan>DATE: {month + 1}/{day}/{year}</InnerSpan>    
-        </Block>  
+        </Block>   */}
     </StyledDay>
   )
 }
@@ -52,7 +52,6 @@ const StyledDay = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   color: ${props => props.day_color};
   margin: 0;
@@ -60,8 +59,8 @@ const StyledDay = styled.div`
   border-style: solid;
   border-bottom-style: none;
   border-right-style: none;
-  border-color: #00000061;
-  border-width: .01px;
+  border-color: #0d53f77a;
+  border-width: .5px;
   transition: color .5s, background-color .5s;
   &:hover {
     color: white;
@@ -78,7 +77,6 @@ const StyledDay = styled.div`
 const Block = styled.button`
     margin: 0;
     padding: 0;
-    /* height: 2vh; */
     color: inherit;
     display: flex;
     flex-direction: column;

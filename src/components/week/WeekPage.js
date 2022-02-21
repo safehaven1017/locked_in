@@ -47,6 +47,8 @@ const DayHeaderContainer = styled(CalendarContainer)`
   margin-bottom: 3%;
   flex-grow: 1;
   align-self: flex-end;
+  border-style: none;
+  box-shadow: none;
 `
 export const WeekTitle = styled.h1`
   display: flex;

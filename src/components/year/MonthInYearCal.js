@@ -56,10 +56,9 @@ const MiniMonthCalendar = styled(CalendarContainer)`
   width: 14vw;
   height: 100%;
   padding: .1vw;
-  background-color: #80808024;
-  border-radius: 10px;
   margin: 0;
-  box-shadow: 0px 0px 3px 1px #00000026;
+  box-shadow: 0px 0px 3px 1px #00000020;
+  border-style: none;
 `
 
 const DayNumber = styled.div`
@@ -69,7 +68,12 @@ const DayNumber = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1vw;
-  color: ${props => calendarModule(props.day).isToday() ? 'white' : 'inherit'};
+  color: ${props => calendarModule(props.day).isPast() ?
+    '#4e6a87'
+    :
+    calendarModule(props.day).isToday() ? 'white' 
+    : 
+    'inherit'};
   background-color: ${props => calendarModule(props.day).isToday() ? 'red' : 'transparent'};
   border-radius: 15px;
   transition: .2s;
